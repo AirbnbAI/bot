@@ -947,6 +947,7 @@
             <div>
               <div style="font-size:14px; font-weight:600;">HostBot</div>
               <div class="chat-status">gotowy do pracy</div>
+              <button onclick="clearHistory()" style="margin-left:auto;font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;color:var(--text3);font-family:'DM Sans',sans-serif;">Wyczyść historię</button>
             </div>
           </div>
 
@@ -996,8 +997,8 @@
 //  KONFIGURACJA — zmień te wartości!
 // ══════════════════════════════════════════
 
-const APP_PASSWORD = 'airbnb2024';        // ← zmień na swoje hasło
-const WORKER_URL   = 'https://hostworker.aiuannyn.workers.dev/';                  // ← wklej URL swojego Cloudflare Workera
+//const APP_PASSWORD = '';        // ← zmień na swoje hasło
+const WORKER_URL   = 'https://hostworker.aiuannyn.workers.dev';                  // ← wklej URL swojego Cloudflare Workera
                                           //   np. 'https://hostbot.twoja-nazwa.workers.dev'
 
 // ══════════════════════════════════════════
@@ -1047,6 +1048,7 @@ function initApp() {
   if (!WORKER_URL) {
     document.getElementById('config-banner').classList.add('show');
   }
+  loadHistory();
 }
 
 // Tabs
@@ -1142,6 +1144,7 @@ async function sendMessage() {
     const fallback = localFallback(text, qa);
     appendMsg('ai', fallback);
     chatHistory.push({ role: 'assistant', content: fallback });
+    saveHistory();
     return;
   }
 
@@ -1158,6 +1161,7 @@ async function sendMessage() {
     const reply = data.reply || 'Przepraszam, wystąpił błąd.';
     appendMsg('ai', reply);
     chatHistory.push({ role: 'assistant', content: reply });
+    saveHistory();
   } catch (err) {
     hideTyping();
     appendMsg('ai', 'Błąd połączenia z serwerem. Sprawdź konfigurację Cloudflare Workera.');
@@ -1187,7 +1191,26 @@ function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 120) + 'px';
 }
+function saveHistory() {
+  localStorage.setItem('hd_chat_history', JSON.stringify(chatHistory));
+  localStorage.setItem('hd_chat_messages', document.getElementById('chat-messages').innerHTML);
+}
 
+function loadHistory() {
+  const savedHistory  = localStorage.getItem('hd_chat_history');
+  const savedMessages = localStorage.getItem('hd_chat_messages');
+  if (savedHistory)  chatHistory = JSON.parse(savedHistory);
+  if (savedMessages) document.getElementById('chat-messages').innerHTML = savedMessages;
+  document.getElementById('chat-messages').scrollTop = 99999;
+}
+
+function clearHistory() {
+  if (!confirm('Wyczyścić całą historię czatu?')) return;
+  localStorage.removeItem('hd_chat_history');
+  localStorage.removeItem('hd_chat_messages');
+  chatHistory = [];
+  document.getElementById('chat-messages').innerHTML = `<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">Cześć! Jak mogę pomóc?</div></div></div>`;
+}
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 </body>
