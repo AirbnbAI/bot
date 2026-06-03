@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/airbnb-panel/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -7,985 +8,333 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f2ee;
-    --surface: #ffffff;
-    --surface2: #faf8f5;
-    --border: #e8e3dc;
-    --text: #1a1714;
-    --text2: #6b6560;
-    --text3: #9e9892;
-    --accent: #c84b2f;
-    --accent-light: #f7ede9;
-    --accent-dark: #9e3622;
-    --green: #2d7a4f;
-    --green-light: #e8f5ee;
-    --radius: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    --bg: #f5f2ee; --surface: #ffffff; --surface2: #faf8f5;
+    --border: #e8e3dc; --text: #1a1714; --text2: #6b6560; --text3: #9e9892;
+    --accent: #c84b2f; --accent-light: #f7ede9; --accent-dark: #9e3622;
+    --green: #2d7a4f; --green-light: #e8f5ee;
+    --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 15px;
-  }
-
-  /* ── LOGIN ── */
-  #login-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background: var(--bg);
-    position: relative;
-    overflow: hidden;
-  }
-
-  #login-screen::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(200,75,47,0.07) 0%, transparent 70%);
-    top: -200px; right: -200px;
-    pointer-events: none;
-  }
-
-  #login-screen::after {
-    content: '';
-    position: absolute;
-    width: 400px; height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(45,122,79,0.05) 0%, transparent 70%);
-    bottom: -100px; left: -100px;
-    pointer-events: none;
-  }
-
-  .login-card {
-    background: var(--surface);
-    border-radius: 20px;
-    padding: 48px 40px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: var(--shadow), 0 0 0 1px var(--border);
-    position: relative;
-    z-index: 1;
-  }
-
-  .login-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 32px;
-  }
-
-  .login-logo-icon {
-    width: 40px; height: 40px;
-    background: var(--accent);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    color: white;
-    font-size: 20px;
-  }
-
-  .login-logo-text {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    color: var(--text);
-  }
-
-  .login-logo-text span {
-    color: var(--accent);
-  }
-
-  .login-subtitle {
-    font-size: 13px;
-    color: var(--text3);
-    margin-bottom: 32px;
-    line-height: 1.5;
-  }
-
-  .login-label {
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text2);
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .login-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    font-family: 'DM Mono', monospace;
-    font-size: 15px;
-    color: var(--text);
-    background: var(--surface2);
-    outline: none;
-    transition: border-color 0.15s;
-    letter-spacing: 3px;
-  }
-
-  .login-input:focus {
-    border-color: var(--accent);
-    background: var(--surface);
-  }
-
-  .login-btn {
-    width: 100%;
-    margin-top: 20px;
-    padding: 13px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-  }
-
-  .login-btn:hover { background: var(--accent-dark); }
-  .login-btn:active { transform: scale(0.98); }
-
-  .login-error {
-    font-size: 13px;
-    color: var(--accent);
-    margin-top: 12px;
-    display: none;
-    text-align: center;
-  }
-
-  /* ── APP ── */
-  #app {
-    display: none;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-
-  /* Header */
-  .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-  }
-
-  .header-logo-dot {
-    width: 8px; height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .header-user {
-    font-size: 13px;
-    color: var(--text2);
-    background: var(--surface2);
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-  }
-
-  .header-logout {
-    font-size: 13px;
-    color: var(--text3);
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 8px;
-    transition: background 0.15s;
-    text-decoration: none;
-  }
-  .header-logout:hover { background: var(--surface2); color: var(--text); }
-
-  /* Main layout */
-  .main {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    flex: 1;
-    min-height: calc(100vh - 60px);
-  }
-
-  /* Sidebar */
-  .sidebar {
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 20px 0;
-    position: sticky;
-    top: 60px;
-    height: calc(100vh - 60px);
-    overflow-y: auto;
-  }
-
-  .sidebar-section {
-    padding: 0 12px;
-    margin-bottom: 24px;
-  }
-
-  .sidebar-title {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--text3);
-    padding: 0 8px;
-    margin-bottom: 6px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 12px;
-    border-radius: 9px;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--text2);
-    transition: all 0.12s;
-    margin-bottom: 2px;
-    text-decoration: none;
-  }
-
-  .nav-item:hover {
-    background: var(--surface2);
-    color: var(--text);
-  }
-
-  .nav-item.active {
-    background: var(--accent-light);
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .nav-item svg {
-    width: 17px; height: 17px;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-
-  .nav-item.active svg { opacity: 1; }
-
-  .nav-badge {
-    margin-left: auto;
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    background: var(--accent-light);
-    color: var(--accent);
-    padding: 2px 7px;
-    border-radius: 10px;
-    font-weight: 500;
-  }
-
-  /* Content */
-  .content {
-    padding: 28px;
-    overflow-y: auto;
-  }
-
-  /* Tab panels */
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* Page header */
-  .page-header {
-    margin-bottom: 28px;
-  }
-
-  .page-title {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .page-sub {
-    font-size: 13px;
-    color: var(--text3);
-  }
-
-  /* Stats grid */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 14px;
-    margin-bottom: 28px;
-  }
-
-  .stat-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    border: 1px solid var(--border);
-  }
-
-  .stat-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text3);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .stat-value {
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    color: var(--text);
-  }
-
-  .stat-sub {
-    font-size: 12px;
-    color: var(--text3);
-    margin-top: 4px;
-  }
-
-  .stat-up { color: var(--green); }
-  .stat-dot {
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-right: 5px;
-  }
-
-  /* Cards */
-  .card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    margin-bottom: 20px;
-    overflow: hidden;
-  }
-
-  .card-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .card-body {
-    padding: 16px 20px;
-  }
-
-  /* Checklist */
-  .checklist { list-style: none; }
-  .checklist li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-    color: var(--text2);
-    cursor: pointer;
-    transition: color 0.12s;
-  }
-  .checklist li:last-child { border-bottom: none; }
-  .checklist li:hover { color: var(--text); }
-
-  .check-box {
-    width: 18px; height: 18px;
-    border-radius: 5px;
-    border: 1.5px solid var(--border);
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 1px;
-    transition: all 0.12s;
-  }
-  .check-box.done {
-    background: var(--green);
-    border-color: var(--green);
-    color: white;
-  }
-  .check-box.done::after { content: '✓'; font-size: 11px; }
-
-  .checklist li.done-item > span { text-decoration: line-through; opacity: 0.5; }
-
-  /* Tag */
-  .tag {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 9px;
-    border-radius: 6px;
-  }
-  .tag-orange { background: #fff2e8; color: #c2540a; }
-  .tag-green { background: var(--green-light); color: var(--green); }
-  .tag-blue { background: #e8f0fb; color: #1a56db; }
-  .tag-gray { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
-
-  /* Booking row */
-  .booking-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .booking-row:last-child { border-bottom: none; }
-  .booking-avatar {
-    width: 34px; height: 34px; border-radius: 50%;
-    background: var(--accent-light);
-    color: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 600; flex-shrink: 0;
-  }
-  .booking-name { font-weight: 500; color: var(--text); }
-  .booking-details { font-size: 12px; color: var(--text3); }
-  .booking-price { margin-left: auto; font-weight: 600; font-family: 'DM Mono', monospace; }
-
-  /* ── AI CHAT ── */
-  .chat-container {
-    background: var(--surface);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 185px);
-    min-height: 500px;
-  }
-
-  .chat-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .chat-ai-icon {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    color: white;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  .chat-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--green);
-  }
-  .chat-status::before {
-    content: '';
-    display: block;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    scroll-behavior: smooth;
-  }
-
-  .msg {
-    margin-bottom: 16px;
-    display: flex;
-    gap: 10px;
-  }
-
-  .msg.user { flex-direction: row-reverse; }
-
-  .msg-avatar {
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  .msg.ai .msg-avatar {
-    background: var(--accent);
-    color: white;
-    font-size: 14px;
-  }
-
-  .msg.user .msg-avatar {
-    background: var(--surface2);
-    color: var(--text2);
-    border: 1px solid var(--border);
-    font-size: 12px;
-  }
-
-  .msg-bubble {
-    max-width: 75%;
-    padding: 11px 15px;
-    border-radius: 14px;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  .msg.ai .msg-bubble {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 4px 14px 14px 14px;
-    color: var(--text);
-  }
-
-  .msg.user .msg-bubble {
-    background: var(--accent);
-    color: white;
-    border-radius: 14px 4px 14px 14px;
-  }
-
-  .msg-time {
-    font-size: 11px;
-    color: var(--text3);
-    margin-top: 4px;
-    font-family: 'DM Mono', monospace;
-  }
-  .msg.user .msg-time { text-align: right; }
-
-  .typing-indicator {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    padding: 12px 15px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 4px 14px 14px 14px;
-    width: fit-content;
-  }
-  .typing-dot {
-    width: 6px; height: 6px;
-    background: var(--text3);
-    border-radius: 50%;
-    animation: typingBounce 1.2s infinite;
-  }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes typingBounce {
-    0%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-6px); }
-  }
-
-  .chat-suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 12px 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  .suggestion-btn {
-    font-size: 12px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text2);
-    cursor: pointer;
-    transition: all 0.12s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .suggestion-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-light);
-  }
-
-  .chat-input-area {
-    padding: 14px 20px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-  }
-
-  .chat-input {
-    flex: 1;
-    padding: 11px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    outline: none;
-    resize: none;
-    min-height: 44px;
-    max-height: 120px;
-    transition: border-color 0.15s;
-    line-height: 1.5;
-    background: var(--surface2);
-    color: var(--text);
-  }
-  .chat-input:focus { border-color: var(--accent); background: var(--surface); }
-
-  .send-btn {
-    width: 44px; height: 44px;
-    background: var(--accent);
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: white;
-    flex-shrink: 0;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .send-btn:hover { background: var(--accent-dark); }
-  .send-btn:active { transform: scale(0.95); }
-  .send-btn svg { width: 18px; height: 18px; }
-
-  /* Config warning */
-  .config-banner {
-    background: #fff8e8;
-    border: 1px solid #f5d78e;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #7a5c1a;
-    margin-bottom: 16px;
-    display: none;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .config-banner.show { display: flex; }
-  .config-banner strong { font-weight: 600; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-  @media (max-width: 768px) {
-    .main { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-    .content { padding: 16px; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
+
+  /* LOGIN */
+  #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; position:relative; overflow:hidden; }
+  #login-screen::before { content:''; position:absolute; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle,rgba(200,75,47,0.07) 0%,transparent 70%); top:-200px; right:-200px; pointer-events:none; }
+  #login-screen::after { content:''; position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(45,122,79,0.05) 0%,transparent 70%); bottom:-100px; left:-100px; pointer-events:none; }
+  .login-card { background:var(--surface); border-radius:20px; padding:48px 40px; width:100%; max-width:400px; box-shadow:var(--shadow),0 0 0 1px var(--border); position:relative; z-index:1; }
+  .login-logo { display:flex; align-items:center; gap:10px; margin-bottom:32px; }
+  .login-logo-icon { width:40px; height:40px; background:var(--accent); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; }
+  .login-logo-text { font-size:22px; font-weight:600; letter-spacing:-0.5px; }
+  .login-logo-text span { color:var(--accent); }
+  .login-subtitle { font-size:13px; color:var(--text3); margin-bottom:28px; line-height:1.5; }
+  .login-label { font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:0.8px; color:var(--text2); margin-bottom:8px; display:block; }
+  .login-input { width:100%; padding:12px 16px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:15px; color:var(--text); background:var(--surface2); outline:none; transition:border-color 0.15s; margin-bottom:14px; }
+  .login-input:focus { border-color:var(--accent); background:var(--surface); }
+  .login-btn { width:100%; margin-top:6px; padding:13px; background:var(--accent); color:white; border:none; border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; cursor:pointer; transition:background 0.15s,transform 0.1s; }
+  .login-btn:hover { background:var(--accent-dark); }
+  .login-btn:active { transform:scale(0.98); }
+  .login-error { font-size:13px; color:var(--accent); margin-top:12px; display:none; text-align:center; }
+
+  /* APP */
+  #app { display:none; min-height:100vh; flex-direction:column; }
+  .header { background:var(--surface); border-bottom:1px solid var(--border); padding:0 24px; height:60px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .header-logo { display:flex; align-items:center; gap:10px; font-size:18px; font-weight:600; letter-spacing:-0.3px; }
+  .header-logo-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; }
+  .header-right { display:flex; align-items:center; gap:12px; }
+  .header-user { font-size:13px; color:var(--text2); background:var(--surface2); padding:6px 14px; border-radius:20px; border:1px solid var(--border); }
+  .header-logout { font-size:13px; color:var(--text3); cursor:pointer; padding:6px 12px; border-radius:8px; transition:background 0.15s; text-decoration:none; }
+  .header-logout:hover { background:var(--surface2); color:var(--text); }
+
+  .main { display:grid; grid-template-columns:260px 1fr; flex:1; min-height:calc(100vh - 60px); }
+  .sidebar { background:var(--surface); border-right:1px solid var(--border); padding:20px 0; position:sticky; top:60px; height:calc(100vh - 60px); overflow-y:auto; }
+  .sidebar-section { padding:0 12px; margin-bottom:24px; }
+  .sidebar-title { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--text3); padding:0 8px; margin-bottom:6px; }
+  .nav-item { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:9px; cursor:pointer; font-size:14px; color:var(--text2); transition:all 0.12s; margin-bottom:2px; text-decoration:none; }
+  .nav-item:hover { background:var(--surface2); color:var(--text); }
+  .nav-item.active { background:var(--accent-light); color:var(--accent); font-weight:500; }
+  .nav-item svg { width:17px; height:17px; flex-shrink:0; opacity:0.7; }
+  .nav-item.active svg { opacity:1; }
+  .nav-badge { margin-left:auto; font-size:11px; font-family:'DM Mono',monospace; background:var(--accent-light); color:var(--accent); padding:2px 7px; border-radius:10px; font-weight:500; }
+  .admin-only { display:none; }
+
+  .content { padding:28px; overflow-y:auto; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+  .page-header { margin-bottom:28px; }
+  .page-title { font-size:22px; font-weight:600; letter-spacing:-0.5px; margin-bottom:4px; }
+  .page-sub { font-size:13px; color:var(--text3); }
+
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:28px; }
+  .stat-card { background:var(--surface); border-radius:var(--radius); padding:18px 20px; border:1px solid var(--border); }
+  .stat-label { font-size:11px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text3); margin-bottom:8px; font-weight:500; }
+  .stat-value { font-size:26px; font-weight:600; letter-spacing:-0.5px; }
+  .stat-sub { font-size:12px; color:var(--text3); margin-top:4px; }
+  .stat-up { color:var(--green); }
+  .stat-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--green); margin-right:5px; }
+
+  .card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px; overflow:hidden; }
+  .card-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .card-title { font-size:14px; font-weight:600; }
+  .card-body { padding:16px 20px; }
+
+  .checklist { list-style:none; }
+  .checklist li { display:flex; align-items:flex-start; gap:12px; padding:9px 0; border-bottom:1px solid var(--border); font-size:14px; color:var(--text2); cursor:pointer; transition:color 0.12s; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li:hover { color:var(--text); }
+  .check-box { width:18px; height:18px; border-radius:5px; border:1.5px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; transition:all 0.12s; }
+  .check-box.done { background:var(--green); border-color:var(--green); color:white; }
+  .check-box.done::after { content:'✓'; font-size:11px; }
+  .checklist li.done-item > span { text-decoration:line-through; opacity:0.5; }
+
+  .tag { font-size:11px; font-weight:500; padding:3px 9px; border-radius:6px; }
+  .tag-orange { background:#fff2e8; color:#c2540a; }
+  .tag-green { background:var(--green-light); color:var(--green); }
+  .tag-blue { background:#e8f0fb; color:#1a56db; }
+
+  .booking-row { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .booking-row:last-child { border-bottom:none; }
+  .booking-avatar { width:34px; height:34px; border-radius:50%; background:var(--accent-light); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+  .booking-name { font-weight:500; }
+  .booking-details { font-size:12px; color:var(--text3); }
+  .booking-price { margin-left:auto; font-weight:600; font-family:'DM Mono',monospace; }
+
+  /* CHAT */
+  .chat-container { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); display:flex; flex-direction:column; height:calc(100vh - 185px); min-height:500px; }
+  .chat-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+  .chat-ai-icon { width:36px; height:36px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; color:white; font-size:16px; flex-shrink:0; }
+  .chat-status { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--green); }
+  .chat-status::before { content:''; display:block; width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .chat-messages { flex:1; overflow-y:auto; padding:20px; scroll-behavior:smooth; }
+  .msg { margin-bottom:16px; display:flex; gap:10px; }
+  .msg.user { flex-direction:row-reverse; }
+  .msg-avatar { width:28px; height:28px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; }
+  .msg.ai .msg-avatar { background:var(--accent); color:white; font-size:14px; }
+  .msg.user .msg-avatar { background:var(--surface2); color:var(--text2); border:1px solid var(--border); }
+  .msg-bubble { max-width:75%; padding:11px 15px; border-radius:14px; font-size:14px; line-height:1.6; }
+  .msg.ai .msg-bubble { background:var(--surface2); border:1px solid var(--border); border-radius:4px 14px 14px 14px; }
+  .msg.user .msg-bubble { background:var(--accent); color:white; border-radius:14px 4px 14px 14px; }
+  .msg-time { font-size:11px; color:var(--text3); margin-top:4px; font-family:'DM Mono',monospace; }
+  .msg.user .msg-time { text-align:right; }
+  .typing-indicator { display:flex; gap:4px; align-items:center; padding:12px 15px; background:var(--surface2); border:1px solid var(--border); border-radius:4px 14px 14px 14px; width:fit-content; }
+  .typing-dot { width:6px; height:6px; background:var(--text3); border-radius:50%; animation:typingBounce 1.2s infinite; }
+  .typing-dot:nth-child(2){animation-delay:0.2s} .typing-dot:nth-child(3){animation-delay:0.4s}
+  @keyframes typingBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+  .chat-suggestions { display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; border-top:1px solid var(--border); }
+  .suggestion-btn { font-size:12px; padding:6px 12px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); color:var(--text2); cursor:pointer; transition:all 0.12s; font-family:'DM Sans',sans-serif; }
+  .suggestion-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-light); }
+  .chat-input-area { padding:14px 20px; border-top:1px solid var(--border); display:flex; gap:10px; align-items:flex-end; }
+  .chat-input { flex:1; padding:11px 16px; border:1.5px solid var(--border); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px; outline:none; resize:none; min-height:44px; max-height:120px; transition:border-color 0.15s; line-height:1.5; background:var(--surface2); color:var(--text); }
+  .chat-input:focus { border-color:var(--accent); background:var(--surface); }
+  .send-btn { width:44px; height:44px; background:var(--accent); border:none; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0; transition:background 0.15s,transform 0.1s; }
+  .send-btn:hover { background:var(--accent-dark); }
+  .send-btn:active { transform:scale(0.95); }
+  .send-btn svg { width:18px; height:18px; }
+  .clear-btn { margin-left:auto; font-size:12px; padding:5px 12px; border-radius:8px; border:1px solid var(--border); background:transparent; cursor:pointer; color:var(--text3); font-family:'DM Sans',sans-serif; transition:all 0.12s; }
+  .clear-btn:hover { background:var(--surface2); color:var(--text); }
+
+  /* ADMIN PANEL */
+  .admin-toolbar { display:flex; gap:12px; align-items:center; margin-bottom:20px; flex-wrap:wrap; }
+  .admin-select { padding:9px 14px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); background:var(--surface); outline:none; cursor:pointer; }
+  .admin-select:focus { border-color:var(--accent); }
+  .admin-load-btn { padding:9px 18px; background:var(--accent); color:white; border:none; border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; transition:background 0.15s; }
+  .admin-load-btn:hover { background:var(--accent-dark); }
+  .history-entry { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:14px; overflow:hidden; }
+  .history-entry-header { padding:12px 16px; background:var(--surface2); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+  .history-user-badge { font-size:12px; font-weight:600; background:var(--accent-light); color:var(--accent); padding:3px 10px; border-radius:20px; }
+  .history-time { font-size:12px; color:var(--text3); font-family:'DM Mono',monospace; }
+  .history-entry-body { padding:14px 16px; }
+  .history-q { font-size:13px; color:var(--text); margin-bottom:8px; }
+  .history-q strong { color:var(--accent); font-weight:600; }
+  .history-a { font-size:13px; color:var(--text2); line-height:1.6; padding-left:12px; border-left:2px solid var(--border); }
+  .history-empty { text-align:center; padding:48px 20px; color:var(--text3); font-size:14px; }
+  .history-loading { text-align:center; padding:48px 20px; color:var(--text3); font-size:14px; }
+
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:10px; }
+
+  @media (max-width:768px) {
+    .main { grid-template-columns:1fr; }
+    .sidebar { display:none; }
+    .content { padding:16px; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); }
   }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════ LOGIN SCREEN ══════════════════ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <div class="login-logo">
       <div class="login-logo-icon">⌂</div>
       <div class="login-logo-text">Host<span>Desk</span></div>
     </div>
-    <p class="login-subtitle">Panel zarządzania dla pracowników obsługi.<br>Wpisz hasło dostępu.</p>
-    <label class="login-label" for="password-input">Hasło dostępu</label>
-    <input
-      type="password"
-      id="password-input"
-      class="login-input"
-      placeholder="••••••••"
-      autocomplete="current-password"
-    />
+    <p class="login-subtitle">Panel zarządzania dla pracowników obsługi.<br>Wpisz swoje imię i hasło.</p>
+    <label class="login-label">Imię</label>
+    <input type="text" id="login-username" class="login-input" placeholder="np. Ania" autocomplete="username" />
+    <label class="login-label">Hasło</label>
+    <input type="password" id="login-password" class="login-input" placeholder="••••••••" autocomplete="current-password" />
     <button class="login-btn" onclick="tryLogin()">Zaloguj się →</button>
-    <p class="login-error" id="login-error">Nieprawidłowe hasło. Spróbuj ponownie.</p>
+    <p class="login-error" id="login-error">Nieprawidłowe imię lub hasło.</p>
   </div>
 </div>
 
-<!-- ══════════════════ APP ══════════════════ -->
+<!-- APP -->
 <div id="app">
-
-  <!-- Header -->
   <header class="header">
-    <div class="header-logo">
-      <div class="header-logo-dot"></div>
-      HostDesk
-    </div>
+    <div class="header-logo"><div class="header-logo-dot"></div>HostDesk</div>
     <div class="header-right">
-      <span class="header-user">👤 Pracownik</span>
+      <span class="header-user" id="header-username">👤</span>
       <a class="header-logout" onclick="logout()">Wyloguj</a>
     </div>
   </header>
 
   <div class="main">
-
-    <!-- Sidebar -->
     <nav class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-title">Panel</div>
-        <a class="nav-item active" onclick="showTab('dashboard', this)">
+        <a class="nav-item active" onclick="showTab('dashboard',this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           Przegląd
         </a>
-        <a class="nav-item" onclick="showTab('checklist', this)">
+        <a class="nav-item" onclick="showTab('checklist',this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
           Checklista
         </a>
-        <a class="nav-item" onclick="showTab('bookings', this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Rezerwacje
-          <span class="nav-badge">3</span>
+        <a class="nav-item" onclick="showTab('bookings',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Rezerwacje <span class="nav-badge">3</span>
         </a>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-title">Narzędzia</div>
-        <a class="nav-item" onclick="showTab('ai', this)">
+        <a class="nav-item" onclick="showTab('ai',this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
           Asystent AI
         </a>
       </div>
+      <div class="sidebar-section admin-only" id="admin-nav-section">
+        <div class="sidebar-title">Admin</div>
+        <a class="nav-item" onclick="showTab('admin',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Historia rozmów
+        </a>
+      </div>
     </nav>
 
-    <!-- Content -->
     <main class="content">
 
-      <!-- ─── Dashboard tab ─── -->
+      <!-- Dashboard -->
       <div id="tab-dashboard" class="tab-panel active">
         <div class="page-header">
           <h1 class="page-title">Dzień dobry 👋</h1>
-          <p class="page-sub">Środa, <span id="today-date"></span></p>
+          <p class="page-sub"><span id="today-date"></span></p>
         </div>
-
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Aktywne rezerwacje</div>
-            <div class="stat-value">3</div>
-            <div class="stat-sub"><span class="stat-dot"></span><span class="stat-up">+1 dzisiaj</span></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Check-in dziś</div>
-            <div class="stat-value">2</div>
-            <div class="stat-sub">o 14:00 i 16:30</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Ocena średnia</div>
-            <div class="stat-value">4.8 ★</div>
-            <div class="stat-sub">ostatnie 30 dni</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Przychód — miesiąc</div>
-            <div class="stat-value">6 240 zł</div>
-            <div class="stat-sub"><span class="stat-dot"></span><span class="stat-up">+18% vs. poprzedni</span></div>
-          </div>
+          <div class="stat-card"><div class="stat-label">Aktywne rezerwacje</div><div class="stat-value">3</div><div class="stat-sub"><span class="stat-dot"></span><span class="stat-up">+1 dzisiaj</span></div></div>
+          <div class="stat-card"><div class="stat-label">Check-in dziś</div><div class="stat-value">2</div><div class="stat-sub">o 14:00 i 16:30</div></div>
+          <div class="stat-card"><div class="stat-label">Ocena średnia</div><div class="stat-value">4.8 ★</div><div class="stat-sub">ostatnie 30 dni</div></div>
+          <div class="stat-card"><div class="stat-label">Przychód — miesiąc</div><div class="stat-value">6 240 zł</div><div class="stat-sub"><span class="stat-dot"></span><span class="stat-up">+18% vs. poprzedni</span></div></div>
         </div>
-
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">Nadchodzące zadania</span>
-            <span class="tag tag-orange">3 pilne</span>
-          </div>
+          <div class="card-header"><span class="card-title">Nadchodzące zadania</span><span class="tag tag-orange">3 pilne</span></div>
           <div class="card-body">
-            <ul class="checklist" id="quick-tasks">
-              <li onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span>Sprawdź czystość Apartament 3 przed check-in Kowalski</span>
-              </li>
-              <li onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span>Uzupełnić środki higieny — Studio Centrum</span>
-              </li>
-              <li onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span>Odpowiedzieć na pytanie gościa (Maria N.) — WiFi</span>
-              </li>
-              <li onclick="toggleCheck(this)">
-                <div class="check-box done"></div>
-                <span>Wysłać kody zamka — Kowalski</span>
-              </li>
+            <ul class="checklist">
+              <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Sprawdź czystość Apartament 3 przed check-in Kowalski</span></li>
+              <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Uzupełnić środki higieny — Studio Centrum</span></li>
+              <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Odpowiedzieć na pytanie gościa (Maria N.) — WiFi</span></li>
+              <li onclick="toggleCheck(this)"><div class="check-box done"></div><span>Wysłać kody zamka — Kowalski</span></li>
             </ul>
           </div>
         </div>
       </div>
 
-      <!-- ─── Checklist tab ─── -->
+      <!-- Checklist -->
       <div id="tab-checklist" class="tab-panel">
-        <div class="page-header">
-          <h1 class="page-title">Checklista sprzątania</h1>
-          <p class="page-sub">Zaznacz co zostało zrobione po każdym pobycie</p>
+        <div class="page-header"><h1 class="page-title">Checklista sprzątania</h1><p class="page-sub">Zaznacz co zostało zrobione po każdym pobycie</p></div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Łazienka</span><span class="tag tag-blue" id="check-counter-bathroom">0/5</span></div>
+          <div class="card-body"><ul class="checklist" id="cl-bathroom">
+            <li onclick="toggleCheck(this,'cl-bathroom','check-counter-bathroom',5)"><div class="check-box"></div><span>Umyj toaletę i sedes</span></li>
+            <li onclick="toggleCheck(this,'cl-bathroom','check-counter-bathroom',5)"><div class="check-box"></div><span>Wyczyść umywalkę i armaturę</span></li>
+            <li onclick="toggleCheck(this,'cl-bathroom','check-counter-bathroom',5)"><div class="check-box"></div><span>Przetrzyj lustro</span></li>
+            <li onclick="toggleCheck(this,'cl-bathroom','check-counter-bathroom',5)"><div class="check-box"></div><span>Zmień ręczniki (świeże, złożone)</span></li>
+            <li onclick="toggleCheck(this,'cl-bathroom','check-counter-bathroom',5)"><div class="check-box"></div><span>Uzupełnij mydło, szampon, papier toaletowy</span></li>
+          </ul></div>
         </div>
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">Łazienka</span>
-            <span class="tag tag-blue" id="check-counter-bathroom">0/5</span>
-          </div>
-          <div class="card-body">
-            <ul class="checklist" id="cl-bathroom">
-              <li onclick="toggleCheck(this, 'cl-bathroom', 'check-counter-bathroom', 5)"><div class="check-box"></div><span>Umyj toaletę i sedes</span></li>
-              <li onclick="toggleCheck(this, 'cl-bathroom', 'check-counter-bathroom', 5)"><div class="check-box"></div><span>Wyczyść umywalkę i armaturę</span></li>
-              <li onclick="toggleCheck(this, 'cl-bathroom', 'check-counter-bathroom', 5)"><div class="check-box"></div><span>Przetrzyj lustro</span></li>
-              <li onclick="toggleCheck(this, 'cl-bathroom', 'check-counter-bathroom', 5)"><div class="check-box"></div><span>Zmień ręczniki (świeże, złożone)</span></li>
-              <li onclick="toggleCheck(this, 'cl-bathroom', 'check-counter-bathroom', 5)"><div class="check-box"></div><span>Uzupełnij mydło, szampon, papier toaletowy</span></li>
-            </ul>
-          </div>
+          <div class="card-header"><span class="card-title">Sypialnia i salon</span><span class="tag tag-blue" id="check-counter-bedroom">0/5</span></div>
+          <div class="card-body"><ul class="checklist" id="cl-bedroom">
+            <li onclick="toggleCheck(this,'cl-bedroom','check-counter-bedroom',5)"><div class="check-box"></div><span>Zmień pościel i poszewki</span></li>
+            <li onclick="toggleCheck(this,'cl-bedroom','check-counter-bedroom',5)"><div class="check-box"></div><span>Odkurz podłogi i dywany</span></li>
+            <li onclick="toggleCheck(this,'cl-bedroom','check-counter-bedroom',5)"><div class="check-box"></div><span>Przetrzyj kurze ze wszystkich powierzchni</span></li>
+            <li onclick="toggleCheck(this,'cl-bedroom','check-counter-bedroom',5)"><div class="check-box"></div><span>Sprawdź TV, pilot, gniazdka</span></li>
+            <li onclick="toggleCheck(this,'cl-bedroom','check-counter-bedroom',5)"><div class="check-box"></div><span>Sprawdź WiFi i wyświetl hasło</span></li>
+          </ul></div>
         </div>
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">Sypialnia i salon</span>
-            <span class="tag tag-blue" id="check-counter-bedroom">0/5</span>
-          </div>
-          <div class="card-body">
-            <ul class="checklist" id="cl-bedroom">
-              <li onclick="toggleCheck(this, 'cl-bedroom', 'check-counter-bedroom', 5)"><div class="check-box"></div><span>Zmień pościel i poszewki</span></li>
-              <li onclick="toggleCheck(this, 'cl-bedroom', 'check-counter-bedroom', 5)"><div class="check-box"></div><span>Odkurz podłogi i dywany</span></li>
-              <li onclick="toggleCheck(this, 'cl-bedroom', 'check-counter-bedroom', 5)"><div class="check-box"></div><span>Przetrzyj kurze ze wszystkich powierzchni</span></li>
-              <li onclick="toggleCheck(this, 'cl-bedroom', 'check-counter-bedroom', 5)"><div class="check-box"></div><span>Sprawdź TV, pilot, gniazdka</span></li>
-              <li onclick="toggleCheck(this, 'cl-bedroom', 'check-counter-bedroom', 5)"><div class="check-box"></div><span>Sprawdź WiFi i wyświetl hasło</span></li>
-            </ul>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Kuchnia</span>
-            <span class="tag tag-blue" id="check-counter-kitchen">0/4</span>
-          </div>
-          <div class="card-body">
-            <ul class="checklist" id="cl-kitchen">
-              <li onclick="toggleCheck(this, 'cl-kitchen', 'check-counter-kitchen', 4)"><div class="check-box"></div><span>Umyj wszystkie naczynia i sprzęty</span></li>
-              <li onclick="toggleCheck(this, 'cl-kitchen', 'check-counter-kitchen', 4)"><div class="check-box"></div><span>Wyczyść blaty, kuchenkę, microwave</span></li>
-              <li onclick="toggleCheck(this, 'cl-kitchen', 'check-counter-kitchen', 4)"><div class="check-box"></div><span>Wynieś śmieci i zmień worek</span></li>
-              <li onclick="toggleCheck(this, 'cl-kitchen', 'check-counter-kitchen', 4)"><div class="check-box"></div><span>Uzupełnij kawę, herbatę, cukier</span></li>
-            </ul>
-          </div>
+          <div class="card-header"><span class="card-title">Kuchnia</span><span class="tag tag-blue" id="check-counter-kitchen">0/4</span></div>
+          <div class="card-body"><ul class="checklist" id="cl-kitchen">
+            <li onclick="toggleCheck(this,'cl-kitchen','check-counter-kitchen',4)"><div class="check-box"></div><span>Umyj wszystkie naczynia i sprzęty</span></li>
+            <li onclick="toggleCheck(this,'cl-kitchen','check-counter-kitchen',4)"><div class="check-box"></div><span>Wyczyść blaty, kuchenkę, microwave</span></li>
+            <li onclick="toggleCheck(this,'cl-kitchen','check-counter-kitchen',4)"><div class="check-box"></div><span>Wynieś śmieci i zmień worek</span></li>
+            <li onclick="toggleCheck(this,'cl-kitchen','check-counter-kitchen',4)"><div class="check-box"></div><span>Uzupełnij kawę, herbatę, cukier</span></li>
+          </ul></div>
         </div>
       </div>
 
-      <!-- ─── Bookings tab ─── -->
+      <!-- Bookings -->
       <div id="tab-bookings" class="tab-panel">
-        <div class="page-header">
-          <h1 class="page-title">Rezerwacje</h1>
-          <p class="page-sub">Najbliższe 7 dni</p>
-        </div>
+        <div class="page-header"><h1 class="page-title">Rezerwacje</h1><p class="page-sub">Najbliższe 7 dni</p></div>
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">Aktywne i nadchodzące</span>
-            <span class="tag tag-green">3 aktywne</span>
-          </div>
+          <div class="card-header"><span class="card-title">Aktywne i nadchodzące</span><span class="tag tag-green">3 aktywne</span></div>
           <div class="card-body">
-            <div class="booking-row">
-              <div class="booking-avatar">AK</div>
-              <div>
-                <div class="booking-name">Anna Kowalska</div>
-                <div class="booking-details">Apartament 3 · 3–6 cze · 3 noce · 2 os.</div>
-              </div>
-              <span class="tag tag-orange">Check-in dziś</span>
-              <div class="booking-price">720 zł</div>
-            </div>
-            <div class="booking-row">
-              <div class="booking-avatar">MN</div>
-              <div>
-                <div class="booking-name">Maria Nowak</div>
-                <div class="booking-details">Studio Centrum · 3–8 cze · 5 nocy · 1 os.</div>
-              </div>
-              <span class="tag tag-green">W trakcie</span>
-              <div class="booking-price">950 zł</div>
-            </div>
-            <div class="booking-row">
-              <div class="booking-avatar">PW</div>
-              <div>
-                <div class="booking-name">Piotr Wiśniewski</div>
-                <div class="booking-details">Apartament 1 · 7–10 cze · 3 noce · 4 os.</div>
-              </div>
-              <span class="tag tag-blue">Nadchodzący</span>
-              <div class="booking-price">1 080 zł</div>
-            </div>
+            <div class="booking-row"><div class="booking-avatar">AK</div><div><div class="booking-name">Anna Kowalska</div><div class="booking-details">Apartament 3 · 3–6 cze · 3 noce · 2 os.</div></div><span class="tag tag-orange">Check-in dziś</span><div class="booking-price">720 zł</div></div>
+            <div class="booking-row"><div class="booking-avatar">MN</div><div><div class="booking-name">Maria Nowak</div><div class="booking-details">Studio Centrum · 3–8 cze · 5 nocy · 1 os.</div></div><span class="tag tag-green">W trakcie</span><div class="booking-price">950 zł</div></div>
+            <div class="booking-row"><div class="booking-avatar">PW</div><div><div class="booking-name">Piotr Wiśniewski</div><div class="booking-details">Apartament 1 · 7–10 cze · 3 noce · 4 os.</div></div><span class="tag tag-blue">Nadchodzący</span><div class="booking-price">1 080 zł</div></div>
           </div>
         </div>
       </div>
 
-      <!-- ─── AI Chat tab ─── -->
+      <!-- AI Chat -->
       <div id="tab-ai" class="tab-panel">
-        <div class="page-header">
-          <h1 class="page-title">Asystent AI</h1>
-          <p class="page-sub">Zadaj pytanie — asystent odpowie na bazie bazy wiedzy</p>
-        </div>
-
-        <div class="config-banner" id="config-banner">
-          <span>⚠️</span>
-          <span><strong>Konfiguracja wymagana.</strong> Ustaw adres swojego Cloudflare Workera w zmiennej <code>WORKER_URL</code> w kodzie strony. <a href="README.md">Instrukcja →</a></span>
-        </div>
-
+        <div class="page-header"><h1 class="page-title">Asystent AI</h1><p class="page-sub">Zadaj pytanie — asystent odpowie na bazie bazy wiedzy</p></div>
         <div class="chat-container">
           <div class="chat-header">
             <div class="chat-ai-icon">✦</div>
-            <div>
-              <div style="font-size:14px; font-weight:600;">HostBot</div>
-              <div class="chat-status">gotowy do pracy</div>
-              <button onclick="clearHistory()" style="margin-left:auto;font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;color:var(--text3);font-family:'DM Sans',sans-serif;">Wyczyść historię</button>
-            </div>
+            <div><div style="font-size:14px;font-weight:600;">HostBot</div><div class="chat-status">gotowy do pracy</div></div>
+            <button class="clear-btn" onclick="clearHistory()">Wyczyść historię</button>
           </div>
-
           <div class="chat-messages" id="chat-messages">
-            <div class="msg ai">
-              <div class="msg-avatar">✦</div>
-              <div>
-                <div class="msg-bubble">
-                  Cześć! Jestem Twoim asystentem obsługi Airbnb. Mogę pomóc z procedurami, odpowiedzieć na pytania gości lub podpowiedzieć jak postąpić w trudnych sytuacjach. Jak mogę pomóc?
-                </div>
-                <div class="msg-time">teraz</div>
-              </div>
-            </div>
+            <div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">Cześć! Jestem Twoim asystentem obsługi Airbnb. Jak mogę pomóc?</div><div class="msg-time">teraz</div></div></div>
           </div>
-
           <div class="chat-suggestions">
             <button class="suggestion-btn" onclick="sendSuggestion('Jak obsłużyć check-in gościa?')">Check-in krok po kroku</button>
             <button class="suggestion-btn" onclick="sendSuggestion('Co zrobić gdy gość zgłasza problem?')">Gość zgłasza problem</button>
             <button class="suggestion-btn" onclick="sendSuggestion('Jak obsłużyć złą recenzję?')">Zła recenzja</button>
             <button class="suggestion-btn" onclick="sendSuggestion('Jak szybko posprzątać między gośćmi?')">Szybkie sprzątanie</button>
           </div>
-
           <div class="chat-input-area">
-            <textarea
-              class="chat-input"
-              id="chat-input"
-              placeholder="Napisz pytanie..."
-              rows="1"
-              onkeydown="handleKey(event)"
-              oninput="autoResize(this)"
-            ></textarea>
+            <textarea class="chat-input" id="chat-input" placeholder="Napisz pytanie..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
             <button class="send-btn" onclick="sendMessage()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Admin: Historia rozmów -->
+      <div id="tab-admin" class="tab-panel">
+        <div class="page-header"><h1 class="page-title">Historia rozmów</h1><p class="page-sub">Przeglądaj pytania zadawane przez pracowników</p></div>
+        <div class="admin-toolbar">
+          <select class="admin-select" id="admin-user-filter">
+            <option value="">— Wszyscy pracownicy —</option>
+          </select>
+          <button class="admin-load-btn" onclick="loadAdminHistory()">Wczytaj</button>
+        </div>
+        <div id="admin-history-list"><div class="history-empty">Kliknij "Wczytaj" aby pobrać historię.</div></div>
       </div>
 
     </main>
@@ -994,64 +343,85 @@
 
 <script>
 // ══════════════════════════════════════════
-//  KONFIGURACJA — zmień te wartości!
+//  KONFIGURACJA
+// ══════════════════════════════════════════
+const WORKER_URL = 'https://hostworker.aiuannyn.workers.dev';
 // ══════════════════════════════════════════
 
-//const APP_PASSWORD = '';        // ← zmień na swoje hasło
-const WORKER_URL   = 'https://hostworker.aiuannyn.workers.dev';                  // ← wklej URL swojego Cloudflare Workera
-                                          //   np. 'https://hostbot.twoja-nazwa.workers.dev'
+let currentUser = null;
+let currentRole = null;
+let adminPassword = null;
+let chatHistory = [];
+let qaData = null;
 
-// ══════════════════════════════════════════
-
-// Login
+// ── Login ──
 async function tryLogin() {
-  const val = document.getElementById('password-input').value;
-  const res = await fetch(WORKER_URL + '/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password: val })
-  });
-  const data = await res.json();
-  if (data.ok) {
-    sessionStorage.setItem('hd_auth', '1');
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    initApp();
-  } else {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!username || !password) return;
+
+  try {
+    const res = await fetch(WORKER_URL + '/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      currentUser = data.name || username;
+      currentRole = data.role;
+      if (currentRole === 'admin') adminPassword = password;
+      sessionStorage.setItem('hd_user', currentUser);
+      sessionStorage.setItem('hd_role', currentRole);
+      if (currentRole === 'admin') sessionStorage.setItem('hd_ap', password);
+      showApp();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  } catch(e) {
     document.getElementById('login-error').style.display = 'block';
   }
 }
 
-document.getElementById('password-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') tryLogin();
-});
+document.getElementById('login-username').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('login-password').focus(); });
+document.getElementById('login-password').addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
 
-function logout() {
-  sessionStorage.removeItem('hd_auth');
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('password-input').value = '';
-}
-
-// Auto-login if session active
-if (sessionStorage.getItem('hd_auth') === '1') {
+function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
+  document.getElementById('header-username').textContent = '👤 ' + currentUser;
+  if (currentRole === 'admin') {
+    document.getElementById('admin-nav-section').style.display = 'block';
+    loadAdminUsers();
+  }
   initApp();
+}
+
+function logout() {
+  sessionStorage.clear();
+  currentUser = null; currentRole = null; adminPassword = null; chatHistory = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-username').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+// Auto-login
+if (sessionStorage.getItem('hd_user')) {
+  currentUser = sessionStorage.getItem('hd_user');
+  currentRole = sessionStorage.getItem('hd_role');
+  adminPassword = sessionStorage.getItem('hd_ap');
+  showApp();
 }
 
 function initApp() {
   const d = new Date();
-  document.getElementById('today-date').textContent = d.toLocaleDateString('pl-PL', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-  });
-  if (!WORKER_URL) {
-    document.getElementById('config-banner').classList.add('show');
-  }
-  loadHistory();
+  document.getElementById('today-date').textContent = d.toLocaleDateString('pl-PL', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  loadLocalHistory();
 }
 
-// Tabs
+// ── Tabs ──
 function showTab(name, el) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -1059,159 +429,149 @@ function showTab(name, el) {
   el.classList.add('active');
 }
 
-// Checklists
+// ── Checklists ──
 function toggleCheck(li, listId, counterId, total) {
   const box = li.querySelector('.check-box');
   const isDone = box.classList.toggle('done');
   li.classList.toggle('done-item', isDone);
-  if (counterId) updateCounter(listId, counterId, total);
-}
-
-function updateCounter(listId, counterId, total) {
-  const done = document.querySelectorAll('#' + listId + ' .check-box.done').length;
-  document.getElementById(counterId).textContent = done + '/' + total;
-}
-
-// ──────────────────────────────────────────
-//  AI Chat
-// ──────────────────────────────────────────
-let qaData = null;
-let chatHistory = [];
-
-async function loadQA() {
-  if (qaData) return qaData;
-  try {
-    const res = await fetch('qa.json?' + Date.now());
-    qaData = await res.json();
-    return qaData;
-  } catch {
-    return [];
+  if (counterId) {
+    const done = document.querySelectorAll('#'+listId+' .check-box.done').length;
+    document.getElementById(counterId).textContent = done+'/'+total;
   }
 }
 
-function now() {
-  return new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+// ── AI Chat ──
+async function loadQA() {
+  if (qaData) return qaData;
+  try { const r = await fetch('qa.json?'+Date.now()); qaData = await r.json(); return qaData; }
+  catch { return []; }
 }
+
+function nowTime() { return new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'}); }
 
 function appendMsg(role, text) {
-  const container = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
-  div.innerHTML = `
-    <div class="msg-avatar">${role === 'user' ? '👤' : '✦'}</div>
-    <div>
-      <div class="msg-bubble">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
-      <div class="msg-time">${now()}</div>
-    </div>`;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+  const c = document.getElementById('chat-messages');
+  const d = document.createElement('div');
+  d.className = 'msg '+(role==='user'?'user':'ai');
+  d.innerHTML = `<div class="msg-avatar">${role==='user'?'👤':'✦'}</div><div><div class="msg-bubble">${escapeHtml(text).replace(/\n/g,'<br>')}</div><div class="msg-time">${nowTime()}</div></div>`;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
 
-function escapeHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function showTyping() {
-  const container = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-  div.id = 'typing-msg';
-  div.innerHTML = `<div class="msg-avatar">✦</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+  const c = document.getElementById('chat-messages');
+  const d = document.createElement('div');
+  d.className='msg ai'; d.id='typing-msg';
+  d.innerHTML=`<div class="msg-avatar">✦</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  c.appendChild(d); c.scrollTop=c.scrollHeight;
+}
+function hideTyping() { const e=document.getElementById('typing-msg'); if(e)e.remove(); }
+
+// Lokalna historia (localStorage)
+function saveLocalHistory() {
+  try {
+    localStorage.setItem('hd_chat_'+currentUser, JSON.stringify(chatHistory));
+    localStorage.setItem('hd_msgs_'+currentUser, document.getElementById('chat-messages').innerHTML);
+  } catch(e) {}
 }
 
-function hideTyping() {
-  const el = document.getElementById('typing-msg');
-  if (el) el.remove();
+function loadLocalHistory() {
+  try {
+    const h = localStorage.getItem('hd_chat_'+currentUser);
+    const m = localStorage.getItem('hd_msgs_'+currentUser);
+    if (h) chatHistory = JSON.parse(h);
+    if (m) document.getElementById('chat-messages').innerHTML = m;
+    document.getElementById('chat-messages').scrollTop = 99999;
+  } catch(e) {}
+}
+
+function clearHistory() {
+  if (!confirm('Wyczyścić historię czatu?')) return;
+  try { localStorage.removeItem('hd_chat_'+currentUser); localStorage.removeItem('hd_msgs_'+currentUser); } catch(e){}
+  chatHistory = [];
+  document.getElementById('chat-messages').innerHTML = `<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">Cześć! Jak mogę pomóc?</div><div class="msg-time">${nowTime()}</div></div></div>`;
 }
 
 async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text) return;
-  input.value = '';
-  input.style.height = 'auto';
-
+  input.value = ''; input.style.height = 'auto';
   appendMsg('user', text);
-  chatHistory.push({ role: 'user', content: text });
-
-  if (!WORKER_URL) {
-    showTyping();
-    await delay(800);
-    hideTyping();
-    const qa = await loadQA();
-    const fallback = localFallback(text, qa);
-    appendMsg('ai', fallback);
-    chatHistory.push({ role: 'assistant', content: fallback });
-    saveHistory();
-    return;
-  }
-
+  chatHistory.push({ role:'user', content:text });
   showTyping();
   try {
     const qa = await loadQA();
-    const res = await fetch(WORKER_URL, {
+    const res = await fetch(WORKER_URL + '/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, qa, history: chatHistory.slice(-10) })
+      body: JSON.stringify({ message:text, qa, history:chatHistory.slice(-10), username:currentUser })
     });
     const data = await res.json();
     hideTyping();
     const reply = data.reply || 'Przepraszam, wystąpił błąd.';
     appendMsg('ai', reply);
-    chatHistory.push({ role: 'assistant', content: reply });
-    saveHistory();
-  } catch (err) {
+    chatHistory.push({ role:'assistant', content:reply });
+    saveLocalHistory();
+  } catch(err) {
     hideTyping();
-    appendMsg('ai', 'Błąd połączenia z serwerem. Sprawdź konfigurację Cloudflare Workera.');
+    appendMsg('ai', 'Błąd połączenia z serwerem.');
   }
 }
 
-function localFallback(question, qa) {
-  const q = question.toLowerCase();
-  for (const item of qa) {
-    const keywords = item.pytanie.toLowerCase().split(' ').filter(w => w.length > 4);
-    const matches = keywords.filter(kw => q.includes(kw)).length;
-    if (matches >= 2) return item.odpowiedz;
+function sendSuggestion(text) { document.getElementById('chat-input').value=text; sendMessage(); }
+function handleKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} }
+function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+
+// ── Admin: Historia ──
+async function loadAdminUsers() {
+  try {
+    const res = await fetch(WORKER_URL + '/admin/users', {
+      headers: { 'x-admin-password': adminPassword }
+    });
+    const data = await res.json();
+    const select = document.getElementById('admin-user-filter');
+    (data.users || []).forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name; opt.textContent = name;
+      select.appendChild(opt);
+    });
+  } catch(e) {}
+}
+
+async function loadAdminHistory() {
+  const list = document.getElementById('admin-history-list');
+  list.innerHTML = '<div class="history-loading">⏳ Pobieranie historii...</div>';
+  const user = document.getElementById('admin-user-filter').value;
+  try {
+    const url = WORKER_URL + '/admin/history' + (user ? '?user='+encodeURIComponent(user) : '');
+    const res = await fetch(url, { headers: { 'x-admin-password': adminPassword } });
+    const data = await res.json();
+    const entries = data.entries || [];
+    if (entries.length === 0) {
+      list.innerHTML = '<div class="history-empty">Brak historii rozmów.</div>';
+      return;
+    }
+    list.innerHTML = entries.map(e => {
+      const d = new Date(e.timestamp);
+      const dateStr = d.toLocaleDateString('pl-PL') + ' ' + d.toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'});
+      return `<div class="history-entry">
+        <div class="history-entry-header">
+          <span class="history-user-badge">👤 ${escapeHtml(e.username)}</span>
+          <span class="history-time">${dateStr}</span>
+        </div>
+        <div class="history-entry-body">
+          <div class="history-q"><strong>Pytanie:</strong> ${escapeHtml(e.question)}</div>
+          <div class="history-a">${escapeHtml(e.answer).replace(/\n/g,'<br>')}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = '<div class="history-empty">Błąd pobierania historii.</div>';
   }
-  return 'Nie znalazłem dokładnej odpowiedzi w bazie wiedzy. Skontaktuj się z przełożonym lub sprawdź wewnętrzne procedury.\n\n(Tryb offline — skonfiguruj Cloudflare Worker aby uzyskać pełne odpowiedzi AI.)';
 }
-
-function sendSuggestion(text) {
-  document.getElementById('chat-input').value = text;
-  sendMessage();
-}
-
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
-function saveHistory() {
-  localStorage.setItem('hd_chat_history', JSON.stringify(chatHistory));
-  localStorage.setItem('hd_chat_messages', document.getElementById('chat-messages').innerHTML);
-}
-
-function loadHistory() {
-  const savedHistory  = localStorage.getItem('hd_chat_history');
-  const savedMessages = localStorage.getItem('hd_chat_messages');
-  if (savedHistory)  chatHistory = JSON.parse(savedHistory);
-  if (savedMessages) document.getElementById('chat-messages').innerHTML = savedMessages;
-  document.getElementById('chat-messages').scrollTop = 99999;
-}
-
-function clearHistory() {
-  if (!confirm('Wyczyścić całą historię czatu?')) return;
-  localStorage.removeItem('hd_chat_history');
-  localStorage.removeItem('hd_chat_messages');
-  chatHistory = [];
-  document.getElementById('chat-messages').innerHTML = `<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">Cześć! Jak mogę pomóc?</div></div></div>`;
-}
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 </body>
 </html>
+HTMLEOF
