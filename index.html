@@ -1003,17 +1003,21 @@ const WORKER_URL   = 'https://hostworker.aiuannyn.workers.dev/';                
 // ══════════════════════════════════════════
 
 // Login
-function tryLogin() {
+async function tryLogin() {
   const val = document.getElementById('password-input').value;
-  if (val === APP_PASSWORD) {
+  const res = await fetch(WORKER_URL + '/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: val })
+  });
+  const data = await res.json();
+  if (data.ok) {
     sessionStorage.setItem('hd_auth', '1');
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     initApp();
   } else {
     document.getElementById('login-error').style.display = 'block';
-    document.getElementById('password-input').value = '';
-    document.getElementById('password-input').focus();
   }
 }
 
