@@ -1,0 +1,34 @@
+[
+  {
+    "pytanie": "Jak zrobić check-in gościa?",
+    "odpowiedz": "Wyślij gościowi kod do skrzynki na klucze 24h przed przyjazdem. Sprawdź czy apartament jest gotowy (czysty, ręczniki, powitalne elementy). Skontaktuj się z gościem dzień przed przyjazdem i zapytaj o planowaną godzinę przyjazdu."
+  },
+  {
+    "pytanie": "Co zrobić gdy gość zgłasza problem z mieszkaniem?",
+    "odpowiedz": "Odpowiedz w ciągu 1 godziny. Jeśli problem jest pilny (brak ciepłej wody, ogrzewania, zamknięte drzwi) – dzwoń od razu. Jeśli usterka wymaga naprawy, skontaktuj się z konserwatorem i poinformuj gościa o czasie oczekiwania. Zaoferuj rekompensatę jeśli problem jest poważny."
+  },
+  {
+    "pytanie": "Jak obsługiwać zwrot kaucji?",
+    "odpowiedz": "Sprawdź mieszkanie w ciągu 24h po wyjeździe. Jeśli nie ma uszkodzeń – zwróć pełną kaucję. Jeśli są uszkodzenia – udokumentuj je zdjęciami i odlicz koszty naprawy. Poinformuj gościa o decyzji przez Airbnb w ciągu 14 dni od wyjazdu."
+  },
+  {
+    "pytanie": "Jak postępować z hałaśliwymi gośćmi?",
+    "odpowiedz": "Najpierw wyślij uprzejmą wiadomość przez Airbnb prosząc o zachowanie ciszy. Jeśli nie pomoże – zadzwoń bezpośrednio. W przypadku braku reakcji możesz skontaktować się z sąsiadami lub zgłosić do Airbnb. W skrajnych przypadkach wezwij ochronę lub policję."
+  },
+  {
+    "pytanie": "Jak ustawić ceny na sezon?",
+    "odpowiedz": "Sprawdź ceny konkurencji w okolicy. Podnieś ceny o 20-40% na weekendy i święta. Latem i w sezonie – podnieś bazowe stawki. Ustaw minimalne stawki nocne w kalendarzu Airbnb. Rozważ dynamic pricing przez Smart Pricing lub zewnętrzne narzędzia jak PriceLabs."
+  },
+  {
+    "pytanie": "Co powinno być w apartamencie?",
+    "odpowiedz": "Obowiązkowe: czyste ręczniki i pościel, mydło i szampon, papier toaletowy (min. 2 rolki na osobę), środki czystości, kawa/herbata. Mile widziane: lokalne przekąski powitalne, mapa/przewodnik po mieście, instrukcja obsługi sprzętów. Upewnij się że WiFi działa i hasło jest widoczne."
+  },
+  {
+    "pytanie": "Jak obsłużyć złą recenzję?",
+    "odpowiedz": "Odpowiedz spokojnie i profesjonalnie – inni goście czytają odpowiedzi. Przeproś za niedogodności bez przyznawania się do winy jeśli recenzja jest niesprawiedliwa. Opisz co zrobiłeś/zrobisz aby poprawić sytuację. Nigdy nie wdawaj się w kłótnię publicznie."
+  },
+  {
+    "pytanie": "Jak szybko posprzątać między gośćmi?",
+    "odpowiedz": "Ustaw minimalną przerwę 3-4h między rezerwacjami. Lista kontrolna: odkurz, umyj łazienkę i kuchnię, zmień pościel i ręczniki, sprawdź zapasy środków higieny, sprawdź czy wszystko działa (TV, WiFi, ogrzewanie). Jeśli masz ekipę sprzątającą – upewnij się że znają listę i mają klucze."
+  }
+]
