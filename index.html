@@ -352,6 +352,7 @@ let currentRole = null;
 let adminPassword = null;
 let chatHistory = [];
 let qaData = null;
+let knowledgeData = null;
 
 // ── Login ──
 async function tryLogin() {
@@ -445,6 +446,17 @@ async function loadQA() {
   try { const r = await fetch('qa.json?'+Date.now()); qaData = await r.json(); return qaData; }
   catch { return []; }
 }
+  async function loadKnowledge() {
+  if (knowledgeData) return knowledgeData;
+
+  try {
+    const r = await fetch('knowledge.txt?' + Date.now());
+    knowledgeData = await r.text();
+    return knowledgeData;
+  } catch {
+    return '';
+  }
+}
 
 function nowTime() { return new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'}); }
 
@@ -502,10 +514,17 @@ async function sendMessage() {
   showTyping();
   try {
     const qa = await loadQA();
+    const knowledge = await loadKnowledge();
     const res = await fetch(WORKER_URL + '/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message:text, qa, history:chatHistory.slice(-10), username:currentUser })
+      body: JSON.stringify({
+  message:text,
+  qa,
+  knowledge,
+  history:chatHistory.slice(-10),
+  username:currentUser
+})
     });
     const data = await res.json();
     hideTyping();
