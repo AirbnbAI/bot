@@ -513,19 +513,16 @@ async function sendMessage() {
   chatHistory.push({ role:'user', content:text });
   showTyping();
   try {
-    const qa = await loadQA();
-    const knowledge = await loadKnowledge();
-    const res = await fetch(WORKER_URL + '/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-  message:text,
-  qa,
-  knowledge,
-  history:chatHistory.slice(-10),
-  username:currentUser
-})
-    });
+// ZAMIEŃ NA:
+const res = await fetch(WORKER_URL + '/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    message: text,
+    history: chatHistory.slice(-3),
+    username: currentUser
+  })
+});
     const data = await res.json();
     hideTyping();
     const reply = data.reply || 'Przepraszam, wystąpił błąd.';
