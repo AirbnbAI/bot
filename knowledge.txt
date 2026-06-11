@@ -1,9 +1,76 @@
-Check-in odbywa się od godziny 15:00.
+Aktualizacja dotycząca oznaczania poziomu trudności zadań:
+Została wprowadzona zmiana w dotychczasowych ustaleniach. Od teraz przy poziomach trudności nie będą już pojawiać się kolory ani kwadraciki. Rozwiązanie to kolidowało z projektem drugiego zespołu TA, dlatego zostało usunięte.
 
-Kod do zamka wysyłamy w dniu przyjazdu.
+✅ Bez zmian pozostaje natomiast obowiązek oznaczania:
+• poziomu trudności początkowego
+• poziomu trudności końcowego
 
-Jeżeli gość zgłasza brak ręczników, należy sprawdzić schowek gospodarczy.
+📋Jeśli ktoś chce zweryfikować poziomy trudności zadań, najlepiej skorzystać z widoku „lista” i zastosować odpowiedni filtr, np. „trudność początkowa” lub „trudność końcowa”.
 
-Hasło WiFi znajduje się na lodówce.
+💥Przypominam również o korzystaniu z tabeli z kryteriami oceny trudności Szczegółowa tabela kryteriów oceny trudności zadań i stosowaniu się do niej, szczególnie w przypadku kryteriów przypisywanych automatycznie.
+W sytuacji, gdy poziom trudności zostaje zmieniony na inny niż sugerowany automatycznie, proszę o dodanie odpowiedniej informacji w polu komentarza.
 
-...
+---------------------------------------------------------------------------------------------------------------
+OGÓLNE ZASADY PRACY ZDALNEJ/TEAMS:
+
+👩‍💻 Po rozpoczęciu pracy zdalnej dołączamy do spotkania na Teamsach (lub je rozpoczynamy). 💻
+
+🟡 Praca zdalna (home office) nie jest obowiązkowa. Jeśli ktoś zdecyduje się przyjść do biura, wystarczy dać znać managerce - najlepiej nie później niż dzień przed.
+
+➡️ Dni pracy zdalnej są planowane z wyprzedzeniem i publikowane razem z miesięcznym grafikiem. Jeśli potrzebujesz zmienić dzień pracy zdalnej na inny dzień, skontaktuj się z managerem co najmniej 3 dni wcześniej, aby uzyskać zgodę (nie trzeba wypełniać żadnych dokumentów).
+
+^ pozostałe zasady dotyczące pracy zdalnej macie opisane w umowie dla osób z UoŚ lub regulaminie dla osób z UoP.
+
+➡️ W przypadku każdorazowego odejścia od komputera lub rozmowy telefonicznej podnosimy „łapkę”, aby zasygnalizować swoją niedostępność.
+W przypadku powrotu z przerwy należy ponownie dołączyć do spotkania na Teamsach (włączyć głos), zanim rozpocznie się dalszą pracę.
+
+➡️ Problemy techniczne (np. awaria aplikacji/sprzętu etc.) należy zgłaszać od razu poprzez Whatsapp na grupie Team Goście.
+
+❗ Zgłoszenia dot. Kadromierza proszę kierować na prywatny nr Igi: 500-441-530.
+
+➡️ O godzinie 14:00 spotykamy się z włączonymi kamerkami, aby omówić trudniejsze zadania/przekazać zadania oraz przekazać kafelki przechodzące.
+(więcej info poniżej)
+
+SPOTKANIE RAPORTOWE O 14:00:
+
+🟡 Spotkanie prowadzi jedna z osób z zespołu: Kasia, Tomek lub Aleksandra.
+Przed spotkaniem prowadzący przygotowuje w Asanie listę bieżących zadań przy użyciu odpowiednich filtrów. Lista jest następnie udostępniana na Teamsach, tak aby cały zespół miał wspólny podgląd aktualnych zadań.
+Lista > Filtruj > Dodaj filtr > Data wykonania
+Sortuj > Osoba odpowiedzialna > Parametry sortowania > Dodaj sortowanie > legenda
+
+🟦 Przed spotkaniem sprawdzamy swoje aktualne zadania i zastanawiamy się:
+które zadania mogę ewentualnie przekazać,
+czy potrzebuję wsparcia przy bardziej wymagających sprawach,
+czy mam możliwość przejęcia dodatkowych zadań, jeśli kogoś obciążenie jest mniejsze.
+
+🟦 W trakcie spotkania zwracamy uwagę przede wszystkim na:
+ilość zadań,
+poziom trudności zadań (niski, średni, wysoki),
+ewentualne komentarze w polu niestandardowym, które wyjaśniają specyfikę danego zadania.
+
+❗ Każdy pracownik może korzystać z takiej listy również samodzielnie w ciągu dnia. Pozwala to sprawdzić aktualne obciążenie pracą w zespole i lepiej zorientować się, kto w danym momencie realizuje więcej lub mniej zadań. 🤷‍♂️
+Spotkanie o 14:00 jest jednym z momentów w ciągu dnia, kiedy weryfikujemy obciążenie pracą w zespole. Jeśli ktoś czuje, że ma zbyt dużo zadań lub potrzebuje wsparcia, jest to dobry moment, aby to zgłosić. 👍
+
+Jak pojawią Wam się pytania dot. ww. ustaleń, to zapraszamy do kontaktu z Igą 😊
+
+--------------------------------------------------------------------
+Zgodnie z wcześniejszymi zapowiedziami, przygotowałam arkusz, w którym będziemy monitorować wszystkie zwroty dla gości oraz należności od gości- związane ze szkodami.
+
+Link do arkusza: https://docs.google.com/spreadsheets/d/10lrxqOLVD940tbnAUmfZiU5-1OlO46uAVseemXSPC2A/edit?gid=0#gid=0
+
+Proszę, żeby od teraz każda osoba wpisywała do arkusza:
+wszystkie zwroty, które udziela, wraz ze szczegółami: czego dotyczył zwrot, oczekiwań gościa, kto go udzielił oraz ostatecznej kwoty 
+wszystkie należności uzyskane od gości - za szkody, które wyrządzili w mieszkaniu (w tym oszacowana wartość szkody - jeśli jest znana).
+Arkusz automatycznie wylicza też wskaźnik zwrotu.
+
+Przez najbliższe miesiące będziemy zbierać dane, które pozwolą nam wspólnie ustalić realistyczny cel obniżenia wskaźnika i usprawnić procesy. Ważne, żeby wszystkie wpisy były kompletne i aktualne.
+
+
+Rozmawiasz przez telefon? Daj znać „łapką”
+Jeśli prowadzisz rozmowę telefoniczną i masz otwarte Teamsy, podnieś „łapkę” – to szybki i czytelny sposób, by poinformować zespół, że jesteś chwilowo zajęty (wyłącz dźwięk).
+Po zakończeniu rozmowy nie zapomnij opuścić łapki (włączyć dźwięk), żeby nie wprowadzać nikogo w błąd.
+Ten prosty gest pomaga uniknąć nieporozumień, zwłaszcza w momentach, gdy trzeba szybko rozdzielić zadania.
+ 
+Dołączaj do Teamsów na start zmiany jeżeli jest ktoś zdalnie
+Logowanie do Teamsów powinno następować zaraz po rozpoczęciu zmiany.
+Dzięki temu zespół od razu widzi, że jesteś dostępny, a my wszyscy możemy łatwiej planować pracę w czasie rzeczywistym.
